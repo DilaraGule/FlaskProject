@@ -1,0 +1,31 @@
+{% extends 'layout.html' %}
+{% include 'header.html' %}
+
+{% block body %}
+
+<div class="container p-3 my-3 bg-secondary text-white col-md-5">
+    {% if setosa %}
+        <div class="alert alert-primary">{{setosa}}</div>
+
+    {% elif versicolor %}
+        <div class="alert alert-primary">{{versicolor}}</div>
+
+    {% elif virginica %}
+        <div class="alert alert-primary">{{virginica}}</div>
+    {% endif %}
+
+    <form class="form-group" action="/decision" method="POST">
+      <label for="sepallen">Sepal Length :</label>
+      <input class="form-control" type="number" name="sepallen">
+      <label for="sepalwid">Sepal Width :</label>
+      <input class="form-control" type="number" name="sepalwid">
+      <label for="petallen">Petal Length :</label>
+      <input class="form-control" type="number" name="petallen">
+      <label for="petalwid">Petal Width :</label>
+      <input class="form-control" type="number" name="petalwid">
+    </br>
+      <button class="btn btn-dark" type="submit" name="submit">Submit</button>
+    </form>
+
+</div>
+{% endblock %}

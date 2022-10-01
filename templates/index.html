@@ -1,0 +1,122 @@
+{% extends 'layout.html' %}
+{% include 'header.html' %}
+
+{% block body %}
+
+<div class="container">
+    <div class="col-md-2" style="padding: 10px; float:right">
+    <a class="btn btn-success" data-bs-toggle="modal" data-bs-target="#mymodal">Add Information</a>
+</div>
+    <div class="container">
+    <div class="col-md-2" style="padding: 10px; float:left">
+    <a href="/covariance" class="btn btn-warning" onclick="return confirm('Kovaryans hesaplansın mı?')">Calculate Covariance</a></td>
+</div>
+        <div class="container">
+    <div class="col-md-2" style="padding: 10px; float:left">
+    <a href="/correlation" class="btn btn-danger" onclick="return confirm('Korelasyon hesaplansın mı?')">Calculate Correlation</a></td>
+</div>
+            <div class="container">
+    <div class="col-md-2" style="padding: 10px; float:left">
+    <a href="/manhattan" class="btn btn-secondary" onclick="return confirm('Mesafeler hesaplansın mı?')">Calculate Distances</a></td>
+</div>
+
+
+<table class="table" id="informations">
+    <thead class="table-dark">
+        <tr>
+            <th scope="col">ID</th>
+            <th scope="col">Name</th>
+            <th scope="col">Height</th>
+            <th scope="col">Weight</th>
+            <th ></th>
+            <th ></th>
+        </tr>
+    </thead>
+    <tbody class="table-striped table-hover">
+
+    {% for item in information %}
+        <tr>
+            <td>{{item.ID}}</td>
+            <td>{{item.Name}}</td>
+            <td>{{item.Height}}</td>
+            <td>{{item.Weight}}</td>
+            <td class="col-md-1"><a href="/update/{{item.ID}}" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#modalEdit{{item.ID}}">Edit</a></td>
+            <td class="col-md-1"><a href="/delete/{{item.ID}}" class="btn btn-danger" onclick="return confirm('Are you sure delete?')">Delete</a></td>
+        </tr>
+    </tbody>
+
+        <!-- Modal Edit Employee -->
+    <div id="modalEdit{{item.ID}}" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">Update Information</h4>
+                </div>
+                <div class="modal-body">
+                    <form action="{{url_for('update')}}" method="POST">
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <label>Name</label>
+                            <input type="hidden" name="id" value="{{item.ID}}">
+                            <input type="text" class="form-control" name="name" value="{{item.Name}}">
+                        </div>
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <label>Height</label>
+                            <input type="text" class="form-control" name="height" value="{{item.Height}}">
+                        </div>
+                        <div class="form-group" style="padding-bottom: 10px;">
+                            <label>Weight</label>
+                            <input type="text" class="form-control" name="weight" value="{{item.Weight}}">
+                        </div>
+                        <div>
+                            <button class="btn btn-primary text-uppercase fw-bold" type="submit">Edit</button>
+                        </div>
+                    </form>
+                </div>
+
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                </div>
+
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+</table>
+</div>
+
+<!-- Modal Add Employee -->
+<div id="mymodal" class="modal fade" role="dialog">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">Add Information</h4>
+        </div>
+          <div class="modal-body">
+              <form action="{{url_for('insert')}}" method="POST">
+              <div class="form-group" style="padding-bottom: 10px;">
+                <label>Name</label>
+                <input type="text" class="form-control" name="name" required="1">
+              </div>
+              <div class="form-group" style="padding-bottom: 10px;">
+                <label>Height</label>
+                <input type="text" class="form-control" name="height" required="1">
+              </div>
+                  <div class="form-group" style="padding-bottom: 10px;">
+                <label>Weight</label>
+                <input type="text" class="form-control" name="weight" required="1">
+              </div>
+              <div>
+                <button class="btn btn-success text-uppercase fw-bold" type="submit">Add</button>
+              </div>
+            </form>
+          </div>
+
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+          </div>
+
+      </div>
+    </div>
+  </div>
+
+{% endblock body %}
